@@ -1,28 +1,63 @@
 package ar.edu.unlam.pb2.educacion;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class Docente {
 
     private String nombre;
     private Integer dni;
-    private Integer aniosExperiencia;
-    private Competencias competenciaMaxima;
+    private List<Competencias> competencias;
 
-    public Docente(String nombre, Integer dni, Integer aniosExperiencia, Competencias competenciaMaxima) {
+    public Docente(String nombre, Integer dni) {
 	this.nombre = nombre;
 	this.dni = dni;
-	this.competenciaMaxima = competenciaMaxima;
-	this.aniosExperiencia = aniosExperiencia;
+	this.competencias = new ArrayList<Competencias>();
+    }
+
+    public void agregarCompetencia(Competencias competencia) {
+	competencias.add(competencia);
+    }
+    
+    public Boolean tieneCompetencia(Competencias competencia) {
+	Boolean encontrada = false;
+	for (int i = 0 ; i < competencias.size(); i++) {
+	    if (competencias.contains(competencia)) {
+		encontrada = true;
+		return encontrada;
+	    }
+	}
+	return encontrada;
     }
 
     public String getNombre() {
 	return this.nombre;
     }
-
-    public Integer getAniosExperiencia() {
-	return aniosExperiencia;
+    
+    public Integer getDni() {
+	return this.dni;
     }
 
-    public Competencias getCompetenciaMaxima() {
-	return competenciaMaxima;
+    public List<Competencias> getCompetencias() {
+        return competencias;
     }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(dni);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	Docente other = (Docente) obj;
+	return Objects.equals(dni, other.dni);
+    }
+    
 }

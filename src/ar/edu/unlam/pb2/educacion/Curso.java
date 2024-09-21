@@ -1,230 +1,167 @@
 package ar.edu.unlam.pb2.educacion;
 
-public class Curso {
+import java.util.LinkedList;
+import java.util.List;
 
-    private Salon salon;
-    private Nivel nivel;
-    private Docente[] docentes;
-    private Alumno[] alumnos;
-    private final static int ALUMNOS_MAX = 25;
-    
-    public Curso(Salon salon) {
+public abstract class Curso {
+
+    protected Nivel salon;
+    protected List<Docente> docentes;
+    protected List<Alumno> alumnos;
+    protected static Integer DOCENTES_MAX;
+
+    public Curso(Nivel salon) {
 	this.salon = salon;
-	this.nivel = asignarNivel();
-	this.docentes = new Docente[cantidadDocentes()];
-	this.alumnos = new Alumno[ALUMNOS_MAX];
-    }
-    
-    public Boolean agregarDocente(Docente docente) {
-	Boolean resultado = Boolean.FALSE;
-	for (Docente cada : docentes) {
-	    if (cada != null && cada.equals(docente)) {
-		resultado = Boolean.FALSE;
-		return resultado;
-	    }
-	    for (int i = 0; i < docentes.length; i++) {
-		if (docentes[i] == null) {
-		    docentes[i] = docente;
-		    resultado = Boolean.TRUE;
-		    return resultado;
-		}
-	    }
-	}
-	return resultado;
-    }
-    
-    public boolean agregarAlumno(Alumno alumno) {
-	for (Alumno cada : alumnos) {
-	    if (cada != null && cada.equals(alumno)) {
-		return false;
-	    }
-	    for (int i = 0; i < alumnos.length; i++) {
-		if (alumnos[i] == null) {
-		    alumnos[i] = alumno;
-		    return true;
-		}
-	    }
-	}
-	return false;
-    }
-    
-    public Docente buscarDocente(Integer dni) {
-	Docente buscado = null;
-	for(int i = 0; i < docentes.length; i++) {
-	    buscado = docentes[i];
-	    return buscado;
-	}
-	return buscado;
+	this.docentes = new LinkedList<Docente>();
+	this.alumnos = new LinkedList<Alumno>();
     }
 
-    public Alumno buscarAlumno(Integer dni) {
-	Alumno buscado = null;
-	for (Alumno alumnos : alumnos) {
-	    buscado = alumnos;
-	}
-	return buscado;
+    /* ver si es neceario ya que todos tienen override */
+    public void agregarAlumno(Alumno alumno) {
     }
 
-    public Salon preAsignarSalon(Alumno alumno) {
-	Salon preAsignación = null;
-	switch (alumno.getEdad()){
-	case 2:
-	    preAsignación = Salon.CELESTE;
-	    break;
-	case 3:
-	    preAsignación = Salon.VERDE;
-	    break;
-	case 4:
-	    preAsignación = Salon.AZUL;
-	    break;
-	case 5:
-	    preAsignación = Salon.ROJO;
-	    break;
-	case 6:
-	    preAsignación = Salon.PRIMERO_P;
-	    break;
-	case 7:
-	    preAsignación = Salon.SEGUNDO_P;
-	    break;
-	case 8:
-	    preAsignación = Salon.TERCERO_P;
-	    break;
-	case 9:
-	    preAsignación = Salon.CUARTO_P;
-	    break;
-	case 10:
-	    preAsignación = Salon.QUINTO_P;
-	    break;
-	case 11:
-	    preAsignación = Salon.SEXTO_P;
-	    break;
-	case 12:
-	    preAsignación = Salon.PRIMERO_S;
-	    break;
-	case 13:
-	    preAsignación = Salon.SEGUNDO_S;
-	    break;
-	case 14:
-	    preAsignación = Salon.TERCERO_S;
-	    break;
-	case 15:
-	    preAsignación = Salon.CUARTO_S;
-	    break;
-	case 16:
-	    preAsignación = Salon.QUINTO_S;
-	    break;
-	case 17:
-	    preAsignación = Salon.SEXTO_S;
-	    break;
-	    default: preAsignación = null;
+    public void agregarDocente(Docente docente) {
+	if (!esMismoDocente(docente)) {
+	    if (this.docentes.size() != DOCENTES_MAX && docente.tieneCompetencia(competenciaRequerida())) {
+		docentes.add(docente);
+	    }
 	}
-	return preAsignación;
     }
-    
-    public Boolean definirSalon() {
-	return Boolean.FALSE;
+
+    public Integer edadRequerida() {
+	Integer edad = 0;
+	switch (salon) {
+	case CELESTE:
+	    edad = 2;
+	    break;
+	case VERDE:
+	    edad = 3;
+	    break;
+	case AZUL:
+	    edad = 4;
+	    break;
+	case ROJO:
+	    edad = 5;
+	    break;
+	case PRIMERO_P:
+	    edad = 6;
+	    break;
+	case SEGUNDO_P:
+	    edad = 7;
+	    break;
+	case TERCERO_P:
+	    edad = 8;
+	    break;
+	case CUARTO_P:
+	    edad = 9;
+	    break;
+	case QUINTO_P:
+	    edad = 10;
+	    break;
+	case SEXTO_P:
+	    edad = 11;
+	    break;
+	case PRIMERO_S:
+	    edad = 12;
+	    break;
+	case SEGUNDO_S:
+	    edad = 13;
+	    break;
+	case TERCERO_S:
+	    edad = 14;
+	    break;
+	case CUARTO_S:
+	    edad = 15;
+	    break;
+	case QUINTO_S:
+	    edad = 16;
+	    break;
+	case SEXTO_S:
+	    edad = 17;
+	    break;
+	default:
+	    break;
+	}
+	return edad;
     }
-    
-    private Nivel asignarNivel() {
-	Nivel nivelAsignado = null;
-	switch(salon) {
+
+    public Competencias competenciaRequerida() {
+	Competencias requerida = null;
+	switch (this.salon) {
 	case CELESTE, VERDE, AZUL, ROJO:
-	    nivelAsignado = Nivel.JARDIN;
-	break;
-	case PRIMERO_P, SEGUNDO_P, TERCERO_P, CUARTO_P, QUINTO_P, SEXTO_P:
-	    nivelAsignado = Nivel.PRIMARIA;
-	break;
-	case PRIMERO_S, SEGUNDO_S, TERCERO_S, CUARTO_S, QUINTO_S, SEXTO_S:
-	    nivelAsignado = Nivel.SECUNDARIA;
-	break;
-	default: 
-	    nivelAsignado = null;
+	    requerida = Competencias.MAESTRX_JARDINERX;
+	    break;
+	case PRIMERO_P:
+	    requerida = Competencias.PRIMERO;
+	    break;
+	case SEGUNDO_P:
+	    requerida = Competencias.SEGUNDO;
+	    break;
+	case TERCERO_P:
+	    requerida = Competencias.TERCERO;
+	    break;
+	case CUARTO_P:
+	    requerida = Competencias.CUARTO;
+	    break;
+	case QUINTO_P:
+	    requerida = Competencias.QUINTO;
+	    break;
+	case SEXTO_P:
+	    requerida = Competencias.SEXTO;
+	    break;
+	default:
+	    requerida = null;
+	    break;
 	}
-	return nivelAsignado;
+	return requerida;
+
     }
 
-    private int cantidadDocentes() {
-	int cantidad = 0;
-	switch (this.nivel) {
-	case JARDIN:
-	    cantidad = 2;
-	    break;
-	case PRIMARIA:
-	    cantidad = 1;
-	    break;
-	case SECUNDARIA:
-	    cantidad = 12;
-	    break;
-	}
-	return cantidad;
-    }
-
-    public Docente[] obtenerListadoDeDocentessOrdenadosPorNombre() {
-	Docente [] docentesOrdenado;
-	docentesOrdenado = new Docente[docentes.length];
-	for (int i = 0; i < docentes.length; i++) {
-	    docentesOrdenado[i] = docentes[i];
-	}
-	for (int i = 0; i < docentes.length - 1; i++) {
-	    for (int j = 0; j < (docentesOrdenado.length - i - 1); j++) {
-		if  (docentesOrdenado[j]!=null && docentesOrdenado[j+1]!=null && docentesOrdenado[j].getNombre().compareTo(docentesOrdenado[j+1].getNombre()) > 0 ) {
-		    Docente aux = docentesOrdenado[j];
-		    docentesOrdenado[j] = docentesOrdenado[j+1];
-		    docentesOrdenado[j+1] = aux;
-		}
+    public Nivel nivelRequerido() {
+	Nivel[] niveles = Nivel.values();
+//	System.out.println(Arrays.toString(niveles));
+	Nivel requerido = null;
+	for (int i = 1; i < Nivel.values().length; i++) {
+	    if (this.salon.equals(niveles[i])) {
+		requerido = niveles[i - 1];
 	    }
 	}
-	return docentesOrdenado;
+	return requerido;
     }
 
-    
-    public Alumno[] obtenerListadoDeAlumnosOrdenadosPorNombre() {
-	Alumno [] alumnosOrdenado;
-	alumnosOrdenado = new Alumno[alumnos.length];
-	for (int i = 0; i < alumnos.length; i++) {
-	    alumnosOrdenado[i] = alumnos[i];
-	}
-	for (int i = 0; i < alumnos.length - 1; i++) {
-	    for (int j = 0; j < (alumnosOrdenado.length - i - 1); j++) {
-		if  (alumnosOrdenado[j]!=null && alumnosOrdenado[j+1]!=null && alumnosOrdenado[j].getNombre().compareTo(alumnosOrdenado[j+1].getNombre()) > 0 ) {
-		    Alumno aux = alumnosOrdenado[j];
-		    alumnosOrdenado[j] = alumnosOrdenado[j+1];
-		    alumnosOrdenado[j+1] = aux;
-		}
+    public Boolean esMismoAlumno(Alumno alumno) {
+	Boolean esMismo = false;
+	for (int i = 0; i < alumnos.size(); i++) {
+	    if (alumnos.get(i).equals(alumno)) {
+		esMismo = true;
+		return esMismo;
 	    }
 	}
-	return alumnosOrdenado;
+	return esMismo;
     }
 
-    public Salon getSalon() {
-	return this.salon;
-    }
+    /* ver como unir estos dos metodos */
     
-    public Nivel getNivel() {
-	return this.nivel;
+    public Boolean esMismoDocente(Docente docente) {
+	Boolean esMismo = false;
+	for (int i = 0; i < docentes.size(); i++) {
+	    if (docentes.get(i).equals(docente)) {
+		esMismo = true;
+		return esMismo;
+	    }
+	}
+	return esMismo;
     }
 
-    public Docente[] getDocentes() {
+    public Nivel getSalon() {
+	return salon;
+    }
+
+    public List<Docente> getDocentes() {
 	return docentes;
     }
 
-    public int contarDocentes() {
-	int contador = 0;
-	for (Docente docente : docentes) {
-	    if (docente != null) {
-		contador++;
-	    }
-	}
-	return contador;
-    }
-
-    public int contarAlumnos() {
-	int contador = 0;
-	for (Alumno alumno : alumnos) {
-	   if (alumno != null) {
-	       contador++;
-	   }
-	}
-	return contador;
+    public List<Alumno> getAlumnos() {
+	return alumnos;
     }
 }

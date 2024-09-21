@@ -1,19 +1,22 @@
 package ar.edu.unlam.pb2.educacion;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Alumno {
 
     private String nombre;
     private Integer dni;
     private Integer edad;
+    private Nivel nivelAprobado;
     private LocalDate[] asistencias;
     private static final int DIAS_DE_CLASE = 190;
 
-    public Alumno(String nombre, Integer dni, Integer edad) {
+    public Alumno(String nombre, Integer dni, Integer edad, Nivel nivelAprobado) {
 	this.nombre = nombre;
 	this.dni = dni;
 	this.edad = edad;
+	this.nivelAprobado = nivelAprobado;
 	this.asistencias = new LocalDate[DIAS_DE_CLASE];
     }
 
@@ -63,6 +66,27 @@ public class Alumno {
     
     public Integer getEdad() {
 	return this.edad;
+    }
+
+    public Nivel getNivelAprobado() {
+        return nivelAprobado;
+    }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(dni);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	Alumno other = (Alumno) obj;
+	return Objects.equals(dni, other.dni);
     }
 
     @Override

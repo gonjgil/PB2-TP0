@@ -1,7 +1,0 @@
-package ar.edu.unlam.pb2.educacion;
-
-public enum Salon {
-    
-	CELESTE, VERDE, AZUL, ROJO, PRIMERO_P, SEGUNDO_P, TERCERO_P, CUARTO_P, QUINTO_P, SEXTO_P, PRIMERO_S, SEGUNDO_S,
-	TERCERO_S, CUARTO_S, QUINTO_S, SEXTO_S
-}

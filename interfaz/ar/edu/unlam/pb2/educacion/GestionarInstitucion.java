@@ -9,7 +9,6 @@ public class GestionarInstitucion {
     public static void main(String[] args) {
 
 	OpcionMenuPrincipal opcionMenu = null;
-	Institucion laInstitucion = new Institucion("ESLAM");
 
 	do {
 	    System.out.println("INSTITUCIÓN EDUCATIVA MODELO");
@@ -33,14 +32,16 @@ public class GestionarInstitucion {
     }
 
     private static void cargaInicialAlumnos() {
-	Alumno alumno01 = new Alumno("Gulp", 12345678, 2);
-	Alumno alumno02 = new Alumno("Oktubre", 45678901, 2);
-	Alumno alumno03 = new Alumno("Bajon", 23456789, 2);
+	Alumno alumno01 = new Alumno("Gulp", 12345678, 2, Nivel.ROJO);
+	Alumno alumno02 = new Alumno("Oktubre", 45678901, 2, Nivel.ROJO);
+	Alumno alumno03 = new Alumno("Bajon", 23456789, 2, Nivel.ROJO);
     }
 
     private static void cargaInicialDocentes() {
-	Docente docente01 = new Docente("Patricio", 12345678, 40, Competencias.MAESTRX_JARDINERX);
-	Docente docente02 = new Docente("Rey", 87654321, 40, Competencias.MAESTRX_JARDINERX);
+	Docente docente01 = new Docente("Patricio", 12345678);
+	Docente docente02 = new Docente("Rey", 87654321);
+	docente01.agregarCompetencia(Competencias.MAESTRX_JARDINERX);
+	docente02.agregarCompetencia(Competencias.MAESTRX_JARDINERX);
     }
 
     private static OpcionMenuPrincipal obtenerOpcionParaMenuPrincipal() {

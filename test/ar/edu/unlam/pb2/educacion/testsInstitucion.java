@@ -6,26 +6,34 @@ import java.time.*;
 
 public class testsInstitucion {
 
-    @Test // Alumno
-    public void queSePuedaCrearUnAlumno() {
-	String nombre = "Quintero";
-	Integer dni = 12345678;
-	Integer edad = 3;
+    @Test // Curso
+    public void queSePuedaCrearUnCursoDeSalitaRojaEnLaClasePadre() {
+	Nivel salon = Nivel.ROJO;
 
-	Alumno nuevo = new Alumno(nombre, dni, edad);
+	Jardin nuevoCurso = new Jardin(salon);
 
-	assertNotNull(nuevo);
-	assertEquals(nombre, nuevo.getNombre());
-	assertEquals(dni, nuevo.getDni());
-	assertEquals(edad, nuevo.getEdad());
+	assertNotNull(nuevoCurso);
+    }
+
+    @Test // Docente
+    public void queSePuedaAgregarUnaCompetenciaAUnDocente() {
+	String nombre = "Muñeco";
+	Integer dni = 20181209;
+	Competencias competencia = Competencias.MATERIA_2;
+
+	Docente docente = new Docente(nombre, dni);
+	docente.agregarCompetencia(competencia);
+
+	assertTrue(docente.getCompetencias().contains(competencia));
     }
 
     @Test // Alumno
     public void queQuinteroPuedaMarcarAsistenciaAUnaClase() {
 	String nombre = "Quintero";
 	Integer dni = 12345678, edad = 3;
+	Nivel nivel = Nivel.ROJO;
 	LocalDate diaDeClase = LocalDate.of(2018, 12, 9);
-	Alumno nuevo = new Alumno(nombre, dni, edad);
+	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
 	nuevo.marcarAsistencia(diaDeClase);
 
@@ -37,7 +45,8 @@ public class testsInstitucion {
 	String nombre = "Quintero";
 	Integer dni = 12345678, edad = 3;
 	LocalDate diaDeClase = LocalDate.of(2024, 12, 9);
-	Alumno nuevo = new Alumno(nombre, dni, edad);
+	Nivel nivel = Nivel.ROJO;
+	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
 	nuevo.marcarAsistencia(diaDeClase);
 	nuevo.marcarAsistencia(diaDeClase);
@@ -45,84 +54,195 @@ public class testsInstitucion {
 	assertEquals(1, nuevo.contarAsistencias());
     }
 
-    @Test // Curso
-    public void queSePuedaCrearUnCursoDeSalitaRoja() {
-	Salon salon = Salon.ROJO;
-
-	Curso nuevoCurso = new Curso(salon);
-
-	assertNotNull(nuevoCurso);
-    }
-
-    @Test // Curso
-    public void queSePuedaAgregarAlDocenteMarceloAUnCursoDeSalitaRoja() {
-	String nombre = "Marcelo";
+    @Test // Curso -> Jardin & Docente
+    public void queNoSePuedaAgregarAUnDocenteConElMismoDniDosVecesAlMismoCursoDeUnJardin() {
+	String nombre = "Marcelo", nombre2 = "Ramon";
 	Integer dni = 9122018;
-	Integer aniosExperiencia = 8;
-	Competencias competenciaMaxima = Competencias.MAESTRX;
-	Docente nuevoDocente = new Docente(nombre, dni, aniosExperiencia, competenciaMaxima);
+	Competencias competencia = Competencias.MAESTRX_JARDINERX;
+	Docente docente = new Docente(nombre, dni);
+	docente.agregarCompetencia(competencia);
+	Docente docente2 = new Docente(nombre2, 9122018);
+	docente2.agregarCompetencia(competencia);
 
-	Curso nuevoCurso = new Curso(Salon.ROJO);
+	/*
+	 * !!!! ver como limitar los valores del constructor que puede tener del enum
+	 * cada clase !!!!
+	 */
+	Jardin curso = new Jardin(Nivel.ROJO);
+	curso.agregarDocente(docente);
+	curso.agregarDocente(docente2);
 
-	assertTrue(nuevoCurso.agregarDocente(nuevoDocente));
+	assertEquals(1, curso.getDocentes().size());
     }
 
-    @Test // Curso
-    public void queNoSePuedaAgregarAMarceloDosVecesAlMismoCursoDeSalitaRoja() {
-	String nombre = "Marcelo";
-	Integer dni = 9122018;
-	Integer aniosExperiencia = 8;
-	Competencias competenciaMaxima = Competencias.MAESTRX;
-	Docente nuevoDocente = new Docente(nombre, dni, aniosExperiencia, competenciaMaxima);
+    @Test // Curso -> Primaria & Docente
+    public void queSePuedaAgregarUnDocenteAPrimeroDePrimaria() {
+	String nombre = "Muñeco";
+	Integer dni = 20181209;
+	Competencias competencia = Competencias.PRIMERO;
 
-	Curso nuevoCurso = new Curso(Salon.ROJO);
-	nuevoCurso.agregarDocente(nuevoDocente);
-	nuevoCurso.agregarDocente(nuevoDocente);
+	Primaria curso = new Primaria(Nivel.PRIMERO_P);
+	Docente nuevo = new Docente(nombre, dni);
+	nuevo.agregarCompetencia(competencia);
 
-	assertEquals(1, nuevoCurso.contarDocentes());
+	curso.agregarDocente(nuevo);
+
+	assertTrue(curso.getDocentes().contains(nuevo));
     }
 
-    @Test 
-    public void queSePuedaAgregarAlPitiAUnCursoDeTerceroPrimaria() {
+    @Test // Curso -> Primaria & Docente
+    public void queNoSePuedaAgregarMasDeUnDocenteAUnCursoDePrimaria() {
+	String nombre = "Muñeco", nombre2 = "Micho";
+	Integer dni = 20181209, dni2 = 11111111;
+	Competencias competencia = Competencias.TERCERO, competencia2 = Competencias.TERCERO;
+
+	Primaria curso = new Primaria(Nivel.TERCERO_P);
+	Docente docente = new Docente(nombre, dni);
+	Docente docente2 = new Docente(nombre2, dni2);
+	docente.agregarCompetencia(competencia);
+	docente2.agregarCompetencia(competencia2);
+
+	curso.agregarDocente(docente);
+	curso.agregarDocente(docente2);
+
+	assertEquals(1, curso.getDocentes().size());
+    }
+
+    @Test // Curso -> Secundaria & Docente
+    public void queSePuedaAgregarUnDocenteAPrimeroDeSecundaria() {
+	String nombre = "Muñeco";
+	Integer dni = 20181209;
+	Competencias materia = Competencias.MATERIA_3;
+	Competencias competencia = Competencias.MATERIA_3;
+
+	Secundaria curso = new Secundaria(Nivel.PRIMERO_S);
+	Docente nuevo = new Docente(nombre, dni);
+	nuevo.agregarCompetencia(competencia);
+
+	curso.agregarDocente(nuevo, materia);
+
+	assertTrue(curso.getDocentes().contains(nuevo));
+    }
+
+    @Test // Curso -> Secundaria & Docente
+    public void queNoSePuedaInscribrUnDocenteEnQuintoDeSecundariaSiNoTieneExperienciaEnEsaMateria() {
+	String nombre = "Muñeco";
+	Integer dni = 20181209;
+	Competencias competencia = Competencias.MATERIA_2;
+	Competencias materia = Competencias.MATERIA_1;
+
+	Secundaria curso = new Secundaria(Nivel.QUINTO_S);
+	Docente docente = new Docente(nombre, dni);
+	docente.agregarCompetencia(competencia);
+
+	curso.agregarDocente(docente, materia);
+
+	assertEquals(0, curso.getDocentes().size());
+    }
+
+    @Test // Curso -> Jardin & Alumno
+    public void queSePuedaCargarUnAlumnoEnUnaSalitaCeleste() {
+	String nombre = "Quintero";
+	Integer dni = 12345678;
+	Integer edad = 5;
+	Nivel nivel = Nivel.NINGUNO;
+
+	Jardin curso = new Jardin(Nivel.CELESTE);
+	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
+
+	curso.agregarAlumno(nuevo);
+
+	assertTrue(curso.getAlumnos().contains(nuevo));
+    }
+
+    @Test // Curso -> Primaria & Alumno
+    public void queNoSePuedaCargarUnAlumnoCon5AñosEnPrimerGradoDePrimaria() {
+	String nombre = "Quintero";
+	Integer dni = 12345678;
+	Integer edad = 5;
+	Nivel nivel = Nivel.NINGUNO;
+
+	Primaria curso = new Primaria(Nivel.PRIMERO_P);
+	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
+
+	curso.agregarAlumno(nuevo);
+
+	assertFalse(curso.getAlumnos().contains(nuevo));
+    }
+
+    @Test // Curso -> Primaria & Alumno
+    public void queNoSePuedaAgregarAlPitiAUnCursoDeTerceroPrimariaSiNoTieneAprobadoSegundoDePrimaria() {
 	String nombre = "Martinez";
 	Integer dni = 20181209;
-	Integer edad = 3;
-	Alumno nuevoAlumno = new Alumno(nombre, dni, edad);
-	
-	Curso nuevoCurso = new Curso(Salon.TERCERO_P);
+	Integer edad = 8;
+	Nivel nivel = Nivel.PRIMERO_P;
 
-	assertTrue(nuevoCurso.agregarAlumno(nuevoAlumno));
+	Alumno alumno = new Alumno(nombre, dni, edad, nivel);
+	Primaria curso = new Primaria(Nivel.TERCERO_P);
+	curso.agregarAlumno(alumno);
+
+	assertEquals(0, curso.getAlumnos().size());
     }
-    
-    @Test
-    public void queNoSePuedaAgregarAlPitiDosVecesAlMismoCursoDeTerceroPrimaria() {
-	String nombre = "Martinez";
+
+    @Test // Curso -> Primaria & Alumno
+    public void queNoSePuedaAgregarADosAlumnosConElMismoDniEnUnCursoDePrimaria() {
+	String nombre = "Martinez", nombre2 = "Juanfer";
 	Integer dni = 20181209;
-	Integer edad = 3;
-	Alumno nuevoAlumno = new Alumno(nombre, dni, edad);
+	Integer edad = 8, edad2 = 9;
+	Nivel nivel = Nivel.SEGUNDO_P;
 	
-	Curso nuevoCurso = new Curso(Salon.TERCERO_P);
-	nuevoCurso.agregarAlumno(nuevoAlumno);
-	nuevoCurso.agregarAlumno(nuevoAlumno);
-	
-	assertEquals(1, nuevoCurso.contarAlumnos());
+	Alumno alumno = new Alumno(nombre, dni, edad, nivel);
+	Alumno alumno2 = new Alumno(nombre2, 20181209, edad2, nivel);
+	Primaria curso = new Primaria(Nivel.TERCERO_P);
+	curso.agregarAlumno(alumno);
+	curso.agregarAlumno(alumno2);
+
+	assertEquals(1, curso.getAlumnos().size());
     }
 
-    @Test
-    public void quePuedaBuscarUnDocentePorSuDni() {
-	String nombre = "Marcelo";
-	Integer dni = 9122018;
-	Integer aniosExperiencia = 8;
-	Competencias competenciaMaxima = Competencias.MAESTRX;
-	Docente nuevoDocente = new Docente(nombre, dni, aniosExperiencia, competenciaMaxima);
-	
-	Docente segundoDocente = new Docente("yo", 26071413, 47, Competencias.SEXTO);
+    @Test // Curso -> Primaria & Alumno
+    public void queSePuedaCargarUnAlumnoConEnTercerGradoDePrimaria() {
+	String nombre = "Quintero";
+	Integer dni = 12345678;
+	Integer edad = 8;
+	Nivel nivel = Nivel.SEGUNDO_P;
 
-	Curso nuevoCurso = new Curso(Salon.ROJO);
-	nuevoCurso.agregarDocente(nuevoDocente);
-	nuevoCurso.agregarDocente(segundoDocente);
+	Primaria curso = new Primaria(Nivel.TERCERO_P);
+	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
-	assertEquals(nuevoDocente, nuevoCurso.buscarDocente(dni));
-	assertEquals(segundoDocente, nuevoCurso.buscarDocente(26071413));
+	curso.agregarAlumno(nuevo);
+
+	assertTrue(curso.getAlumnos().contains(nuevo));
     }
+
+    @Test // Curso -> Secundaria & Alumno
+    public void queSePuedaInscribirEnCuartoDeSecundariaUnAlumnoQueAproboTerceroDeSecundaria() {
+	String nombre = "Quintero";
+	Integer dni = 12345678;
+	Integer edad = 15;
+	Nivel nivel = Nivel.TERCERO_S;
+
+	Secundaria curso = new Secundaria(Nivel.CUARTO_S);
+	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
+
+	curso.agregarAlumno(nuevo);
+
+	assertTrue(curso.getAlumnos().contains(nuevo));
+    }
+
+    @Test // Curso -> Secundaria & Alumno
+    public void queNoSePuedaInscribirUnAlumnoDe15AñosEnSegundoDeSecundaria() {
+	String nombre = "Quintero";
+	Integer dni = 12345678;
+	Integer edad = 15;
+	Nivel nivel = Nivel.PRIMERO_S;
+
+	Secundaria curso = new Secundaria(Nivel.SEGUNDO_S);
+	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
+
+	curso.agregarAlumno(nuevo);
+
+	assertTrue(curso.getAlumnos().contains(nuevo));
+    }
+
 }
