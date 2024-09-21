@@ -4,7 +4,7 @@ public class Primaria extends Curso {
 
     public Primaria(Nivel salon) {
 	super(salon);
-	this.DOCENTES_MAX = 1; /* cambiar esta logica */
+	this.DOCENTES_MAX = 1;
     }
 
     @Override
@@ -12,7 +12,7 @@ public class Primaria extends Curso {
 	if (!esMismoAlumno(alumno)) {
 	    if ((alumno.getEdad() == this.edadRequerida() || alumno.getEdad() == this.edadRequerida() + 1)
 		    && ((this.salon == Nivel.PRIMERO_P && sinEscolarizar(alumno))
-			    || alumno.getNivelAprobado().equals(nivelRequerido()))) {
+			    || alumno.getNivelAprobado().equals(nivelRequeridoPorEdad()))) {
 		alumnos.add(alumno);
 	    }
 	}

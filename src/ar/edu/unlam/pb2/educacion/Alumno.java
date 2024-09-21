@@ -11,6 +11,7 @@ public class Alumno {
     private Nivel nivelAprobado;
     private LocalDate[] asistencias;
     private static final int DIAS_DE_CLASE = 190;
+    private Integer evaluacion;
 
     public Alumno(String nombre, Integer dni, Integer edad, Nivel nivelAprobado) {
 	this.nombre = nombre;
@@ -18,9 +19,9 @@ public class Alumno {
 	this.edad = edad;
 	this.nivelAprobado = nivelAprobado;
 	this.asistencias = new LocalDate[DIAS_DE_CLASE];
+	this.evaluacion = 1;
     }
 
-    // testear asignando al menos dos fechas, e intentar asistir la misma
     public void marcarAsistencia(LocalDate fecha) {
 	for (int i = 0; i < asistencias.length; i++) {
 	    if (asistencias[i] != null && asistencias[i].equals(fecha)) {
@@ -34,18 +35,18 @@ public class Alumno {
 	    }
 	}
     }
-    
+
     public Boolean asistio(LocalDate fecha) {
-	Boolean asistio = Boolean.FALSE;
+	Boolean asistio = false;
 	for (LocalDate fechas : asistencias) {
 	    if (fecha == fechas) {
-		asistio = Boolean.TRUE;
+		asistio = true;
 		return asistio;
 	    }
 	}
 	return asistio;
     }
-    
+
     public int contarAsistencias() {
 	int contador = 0;
 	for (LocalDate fechas : asistencias) {
@@ -55,21 +56,29 @@ public class Alumno {
 	}
 	return contador;
     }
-    
+
     public String getNombre() {
 	return this.nombre;
     }
-    
+
     public Integer getDni() {
 	return this.dni;
     }
-    
+
     public Integer getEdad() {
 	return this.edad;
     }
 
     public Nivel getNivelAprobado() {
-        return nivelAprobado;
+	return nivelAprobado;
+    }
+
+    public void setEvaluacion(Integer nota) {
+	this.evaluacion = nota;
+    }
+
+    public Integer getEvaluacion() {
+	return evaluacion;
     }
 
     @Override

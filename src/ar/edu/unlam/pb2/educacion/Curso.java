@@ -16,7 +16,17 @@ public abstract class Curso {
 	this.alumnos = new LinkedList<Alumno>();
     }
 
-    /* ver si es neceario ya que todos tienen override */
+    public void evaluarAlumno(Alumno alumno, Docente docente, Integer nota) {
+	if (nota >= 1 || nota <= 10) {
+	    if (docente.tieneCompetencia(competenciaRequerida())) {
+		for (int i = 0; i < alumnos.size(); i++) {
+		    alumnos.get(i).setEvaluacion(nota);
+		}
+	    }
+	}
+    }
+
+    /* ver si es necesario ya que todos tienen override */
     public void agregarAlumno(Alumno alumno) {
     }
 
@@ -85,7 +95,8 @@ public abstract class Curso {
 	return edad;
     }
 
-    public Competencias competenciaRequerida() {
+    /* como solo se usa localmente, esta bien asignarlo privado? */
+    private Competencias competenciaRequerida() {
 	Competencias requerida = null;
 	switch (this.salon) {
 	case CELESTE, VERDE, AZUL, ROJO:
@@ -114,10 +125,9 @@ public abstract class Curso {
 	    break;
 	}
 	return requerida;
-
     }
 
-    public Nivel nivelRequerido() {
+    public Nivel nivelRequeridoPorEdad() {
 	Nivel[] niveles = Nivel.values();
 //	System.out.println(Arrays.toString(niveles));
 	Nivel requerido = null;
@@ -141,7 +151,7 @@ public abstract class Curso {
     }
 
     /* ver como unir estos dos metodos */
-    
+
     public Boolean esMismoDocente(Docente docente) {
 	Boolean esMismo = false;
 	for (int i = 0; i < docentes.size(); i++) {

@@ -14,12 +14,13 @@ public class Secundaria extends Curso {
     public void agregarAlumno(Alumno alumno) {
 	if (!esMismoAlumno(alumno)) {
 	    if ((alumno.getEdad() >= this.edadRequerida() && alumno.getEdad() < 18)
-		    && alumno.getNivelAprobado().equals(nivelRequerido())) {
+		    && alumno.getNivelAprobado().equals(nivelRequeridoPorEdad())) {
 		alumnos.add(alumno);
 	    }
 	}
     }
 
+    /* no es Override porque sobrecarga el metodo */
     public void agregarDocente(Docente docente, Competencias materia) {
 	if (esMateriaValida(materia)) {
 	    if (docente.tieneCompetencia(materia)) {

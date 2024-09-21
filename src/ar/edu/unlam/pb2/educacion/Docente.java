@@ -19,10 +19,10 @@ public class Docente {
     public void agregarCompetencia(Competencias competencia) {
 	competencias.add(competencia);
     }
-    
+
     public Boolean tieneCompetencia(Competencias competencia) {
 	Boolean encontrada = false;
-	for (int i = 0 ; i < competencias.size(); i++) {
+	for (int i = 0; i < competencias.size(); i++) {
 	    if (competencias.contains(competencia)) {
 		encontrada = true;
 		return encontrada;
@@ -34,13 +34,13 @@ public class Docente {
     public String getNombre() {
 	return this.nombre;
     }
-    
+
     public Integer getDni() {
 	return this.dni;
     }
 
     public List<Competencias> getCompetencias() {
-        return competencias;
+	return competencias;
     }
 
     @Override
@@ -59,5 +59,5 @@ public class Docente {
 	Docente other = (Docente) obj;
 	return Objects.equals(dni, other.dni);
     }
-    
+
 }
