@@ -18,7 +18,7 @@ public abstract class Curso {
 
     public void evaluarAlumno(Alumno alumno, Docente docente, Integer nota) {
 	if (nota >= 1 || nota <= 10) {
-	    if (docente.tieneCompetencia(competenciaRequerida())) {
+	    if (docente.getCompetencias().contains(competenciaRequerida())) { 
 		for (int i = 0; i < alumnos.size(); i++) {
 		    alumnos.get(i).setEvaluacion(nota);
 		}
@@ -26,13 +26,13 @@ public abstract class Curso {
 	}
     }
 
-    // PREGUNTAR ver si es neceario ya que todos tienen override
+    // PREGUNTAR ver si es necesario asi vacio, ya que todos tienen override
     public void agregarAlumno(Alumno alumno) {
     }
 
     public void agregarDocente(Docente docente) {
 	if (!esMismoDocente(docente)) {
-	    if (this.docentes.size() != DOCENTES_MAX && docente.tieneCompetencia(competenciaRequerida())) {
+	    if (this.docentes.size() != DOCENTES_MAX && docente.getCompetencias().contains(competenciaRequerida())) {
 		docentes.add(docente);
 	    }
 	}

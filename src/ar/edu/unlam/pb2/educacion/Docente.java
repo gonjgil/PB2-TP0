@@ -17,18 +17,9 @@ public class Docente {
     }
 
     public void agregarCompetencia(Competencias competencia) {
+	if(!competencias.contains(competencia)) {
 	competencias.add(competencia);
-    }
-
-    public Boolean tieneCompetencia(Competencias competencia) {
-	Boolean encontrada = false;
-	for (int i = 0; i < competencias.size(); i++) {
-	    if (competencias.contains(competencia)) {
-		encontrada = true;
-		return encontrada;
-	    }
-	}
-	return encontrada;
+	}	
     }
 
     public String getNombre() {
