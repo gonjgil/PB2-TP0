@@ -9,10 +9,9 @@ public class Primaria extends Curso {
 
     @Override
     public void agregarAlumno(Alumno alumno) {
-	if (!esMismoAlumno(alumno)) {
+	if (!alumnos.contains(alumno)) {
 	    if ((alumno.getEdad() == this.edadRequerida() || alumno.getEdad() == this.edadRequerida() + 1)
-		    && ((this.salon == Nivel.PRIMERO_P && sinEscolarizar(alumno))
-			    || alumno.getNivelAprobado().equals(nivelRequeridoPorEdad()))) {
+		    && ((this.salon == Nivel.PRIMERO_P && sinEscolarizar(alumno)) || alumno.getNivelAprobado().equals(nivelRequeridoPorEdad()))) {
 		alumnos.add(alumno);
 	    }
 	}
@@ -20,9 +19,8 @@ public class Primaria extends Curso {
 
     public Boolean sinEscolarizar(Alumno alumno) {
 	Boolean sinEscolarizar = false;
-	if (alumno.getNivelAprobado() == Nivel.NINGUNO || alumno.getNivelAprobado() == Nivel.AZUL
-		|| alumno.getNivelAprobado() == Nivel.CELESTE || alumno.getNivelAprobado() == Nivel.ROJO
-		|| alumno.getNivelAprobado() == Nivel.VERDE) {
+	if (alumno.getNivelAprobado() == Nivel.NINGUNO || alumno.getNivelAprobado() == Nivel.AZUL || alumno.getNivelAprobado() == Nivel.CELESTE
+		|| alumno.getNivelAprobado() == Nivel.ROJO || alumno.getNivelAprobado() == Nivel.VERDE) {
 	    sinEscolarizar = true;
 	    return sinEscolarizar;
 	}

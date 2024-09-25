@@ -9,17 +9,16 @@ public class Jardin extends Curso {
 
     @Override
     public void agregarAlumno(Alumno alumno) {
-	if (!esMismoAlumno(alumno)) {
+	if (!alumnos.contains(alumno)) {
 	    if (alumno.getEdad() >= 2 && alumno.getEdad() <= 5) {
 		alumnos.add(alumno);
 	    }
 	}
     }
 
-    /* ver si esta es la forma adecuada para evitar que un alumno de jardin sea evaluado */
+// PREGUNTAR ver si esta es la forma adecuada para evitar que un alumno de jardin sea evaluado (un metodo void en la clase heredada)
     @Override
     public void evaluarAlumno(Alumno alumno, Docente docente, Integer nota) {
-	return;
     }
 
 }

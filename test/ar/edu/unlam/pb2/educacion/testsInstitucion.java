@@ -70,8 +70,7 @@ public class testsInstitucion {
     }
 
     @Test // Curso -> Jardin & Docente
-    public void queNoSePuedaAgregarAUnDocenteConElMismoDniDosVecesAlMismoCursoDeUnJardin() { // Curso -> Jardin &
-											     // Docente
+    public void queNoSePuedaAgregarAUnDocenteConElMismoDniDosVecesAlMismoCursoDeUnJardin() { // Curso -> Jardin & Docente
 	String nombre = "Marcelo", nombre2 = "Ramon";
 	Integer dni = 9122018;
 	Competencias competencia = Competencias.MAESTRX_JARDINERX;
@@ -80,10 +79,8 @@ public class testsInstitucion {
 	Docente docente2 = new Docente(nombre2, 9122018);
 	docente2.agregarCompetencia(competencia);
 
-	/*
-	 * !!!! ver como limitar los valores del constructor que puede tener del enum
-	 * cada clase !!!!
-	 */
+// PREGUNTAR ver como limitar los valores del constructor que puede tomar del enum cada clase !!!!
+
 	Jardin curso = new Jardin(Nivel.ROJO);
 	curso.agregarDocente(docente);
 	curso.agregarDocente(docente2);
@@ -141,9 +138,7 @@ public class testsInstitucion {
     }
 
     @Test // Curso -> Secundaria & Docente
-    public void queNoSePuedaInscribrUnDocenteEnQuintoDeSecundariaSiNoTieneExperienciaEnEsaMateria() { // Curso ->
-												      // Secundaria &
-												      // Docente
+    public void queNoSePuedaInscribrUnDocenteEnQuintoDeSecundariaSiNoTieneExperienciaEnEsaMateria() { // Curso -> Secundaria & Docente
 	String nombre = "Muñeco";
 	Integer dni = 20181209;
 	Competencias competencia = Competencias.MATERIA_2;
@@ -189,9 +184,7 @@ public class testsInstitucion {
     }
 
     @Test // Curso -> Primaria & Alumno
-    public void queNoSePuedaAgregarAlPitiAUnCursoDeTerceroPrimariaSiNoTieneAprobadoSegundoDePrimaria() { // Curso ->
-													 // Primaria &
-													 // Alumno
+    public void queNoSePuedaAgregarAlPitiAUnCursoDeTerceroPrimariaSiNoTieneAprobadoSegundoDePrimaria() { // Curso -> Primaria & Alumno
 	String nombre = "Martinez";
 	Integer dni = 20181209;
 	Integer edad = 8;
@@ -236,8 +229,7 @@ public class testsInstitucion {
     }
 
     @Test // Curso -> Secundaria & Alumno
-    public void queSePuedaInscribirEnCuartoDeSecundariaUnAlumnoQueAproboTerceroDeSecundaria() { // Curso -> Secundaria &
-												// Alumno
+    public void queSePuedaInscribirEnCuartoDeSecundariaUnAlumnoQueAproboTerceroDeSecundaria() { // Curso -> Secundaria & Alumno
 	String nombre = "Quintero";
 	Integer dni = 12345678;
 	Integer edad = 15;

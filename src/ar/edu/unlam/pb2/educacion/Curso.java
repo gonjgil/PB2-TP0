@@ -26,7 +26,7 @@ public abstract class Curso {
 	}
     }
 
-    /* ver si es necesario ya que todos tienen override */
+    // PREGUNTAR ver si es neceario ya que todos tienen override
     public void agregarAlumno(Alumno alumno) {
     }
 
@@ -95,7 +95,7 @@ public abstract class Curso {
 	return edad;
     }
 
-    /* como solo se usa localmente, esta bien asignarlo privado? */
+// PREGUNTAR como solo se usa localmente, esta bien asignarlo privado?
     private Competencias competenciaRequerida() {
 	Competencias requerida = null;
 	switch (this.salon) {
@@ -139,18 +139,7 @@ public abstract class Curso {
 	return requerido;
     }
 
-    public Boolean esMismoAlumno(Alumno alumno) {
-	Boolean esMismo = false;
-	for (int i = 0; i < alumnos.size(); i++) {
-	    if (alumnos.get(i).equals(alumno)) {
-		esMismo = true;
-		return esMismo;
-	    }
-	}
-	return esMismo;
-    }
-
-    /* ver como unir estos dos metodos */
+// PREGUNTAR ver como unir estos dos metodos
 
     public Boolean esMismoDocente(Docente docente) {
 	Boolean esMismo = false;
