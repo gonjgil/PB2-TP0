@@ -9,5 +9,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="interfaz"/>
 	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="enums"/>
+	<classpathentry kind="src" path="exceptions"/>
+	<classpathentry kind="src" path="interfaces"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
