@@ -1,42 +1,59 @@
-package ar.edu.unlam.pb2.educacion;
+package ar.edu.unlam.pb2.cursos;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
-public abstract class Curso {
+import ar.edu.unlam.pb2.enums.Competencias;
+import ar.edu.unlam.pb2.enums.Nivel;
+import ar.edu.unlam.pb2.excepciones.AlumnoInscriptoException;
+import ar.edu.unlam.pb2.excepciones.EdadNoPermitidaException;
+import ar.edu.unlam.pb2.excepciones.NivelInvalidoException;
+import ar.edu.unlam.pb2.interfaces.Validaciones;
+import ar.edu.unlam.pb2.personas.Alumno;
+import ar.edu.unlam.pb2.personas.Docente;
+
+public abstract class Curso implements Validaciones {
 
     protected Nivel salon;
-    protected List<Docente> docentes;
-    protected List<Alumno> alumnos;
+    protected Set<Docente> docentes;
+    protected Set<Alumno> alumnos;
     protected static Integer DOCENTES_MAX;
 
     public Curso(Nivel salon) {
 	this.salon = salon;
-	this.docentes = new LinkedList<Docente>();
-	this.alumnos = new LinkedList<Alumno>();
-    }
-
-    public void evaluarAlumno(Alumno alumno, Docente docente, Integer nota) {
-	if (nota >= 1 || nota <= 10) {
-	    if (docente.getCompetencias().contains(competenciaRequerida())) { 
-		for (int i = 0; i < alumnos.size(); i++) {
-		    alumnos.get(i).setEvaluacion(nota);
-		}
-	    }
-	}
-    }
-
-    // PREGUNTAR ver si es necesario asi vacio, ya que todos tienen override
-    public void agregarAlumno(Alumno alumno) {
+	this.docentes = new HashSet<Docente>();
+	this.alumnos = new HashSet<Alumno>();
     }
 
     public void agregarDocente(Docente docente) {
-	if (!esMismoDocente(docente)) {
+	if (!docentes.contains(docente)) {
 	    if (this.docentes.size() != DOCENTES_MAX && docente.getCompetencias().contains(competenciaRequerida())) {
 		docentes.add(docente);
 	    }
 	}
     }
+    
+    public void inscribirAlumno(Alumno alumno) throws AlumnoInscriptoException, EdadNoPermitidaException, NivelInvalidoException {
+	if (alumnos.contains(alumno)) {
+		    throw new AlumnoInscriptoException("El alumno ya esta inscripto");
+	} else if (validarEdad(alumno) && validarNivel(alumno)) {
+		alumnos.add(alumno);
+	    }
+	}
+    
+    // NOTE rehacer
+    public void evaluarAlumno(Alumno alumno, Docente docente, Integer nota) {
+	if (nota >= 1 || nota <= 10) {
+	    if (docente.getCompetencias().contains(competenciaRequerida())) { 
+		for (Alumno cada : alumnos) {
+		    cada.setEvaluacion(nota);
+		}
+		}
+	    }
+	}
 
     public Integer edadRequerida() {
 	Integer edad = 0;
@@ -127,6 +144,7 @@ public abstract class Curso {
 	return requerida;
     }
 
+    // NOTE refactorizar
     public Nivel nivelRequeridoPorEdad() {
 	Nivel[] niveles = Nivel.values();
 //	System.out.println(Arrays.toString(niveles));
@@ -139,28 +157,15 @@ public abstract class Curso {
 	return requerido;
     }
 
-// PREGUNTAR ver como unir estos dos metodos
-
-    public Boolean esMismoDocente(Docente docente) {
-	Boolean esMismo = false;
-	for (int i = 0; i < docentes.size(); i++) {
-	    if (docentes.get(i).equals(docente)) {
-		esMismo = true;
-		return esMismo;
-	    }
-	}
-	return esMismo;
-    }
-
     public Nivel getSalon() {
 	return salon;
     }
 
-    public List<Docente> getDocentes() {
+    public Set<Docente> getDocentes() {
 	return docentes;
     }
 
-    public List<Alumno> getAlumnos() {
+    public Set<Alumno> getAlumnos() {
 	return alumnos;
     }
 }

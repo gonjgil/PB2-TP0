@@ -1,4 +1,11 @@
-package ar.edu.unlam.pb2.educacion;
+package ar.edu.unlam.pb2.cursos;
+
+import ar.edu.unlam.pb2.enums.Competencias;
+import ar.edu.unlam.pb2.enums.Nivel;
+import ar.edu.unlam.pb2.excepciones.EdadNoPermitidaException;
+import ar.edu.unlam.pb2.excepciones.NivelInvalidoException;
+import ar.edu.unlam.pb2.personas.Alumno;
+import ar.edu.unlam.pb2.personas.Docente;
 
 public class Secundaria extends Curso {
 
@@ -10,12 +17,25 @@ public class Secundaria extends Curso {
     }
 
     @Override
-    public void agregarAlumno(Alumno alumno) {
-	if (!alumnos.contains(alumno)) {
-	    if ((alumno.getEdad() >= this.edadRequerida() && alumno.getEdad() < 18) && alumno.getNivelAprobado().equals(nivelRequeridoPorEdad())) {
-		alumnos.add(alumno);
-	    }
+    public Boolean validarEdad(Alumno alumno) throws EdadNoPermitidaException {
+	Boolean resultado = false;
+	if (alumno.getEdad() >= this.edadRequerida() && alumno.getEdad() < 18) {
+	    resultado = true;
+	} else {
+	    throw new EdadNoPermitidaException("No tiene la edad adecuada para inscribirse en Secundaria");
 	}
+	return resultado;
+    }
+    
+    @Override
+    public Boolean validarNivel(Alumno alumno) throws NivelInvalidoException {
+	Boolean resultado = false;
+	if (alumno.getNivelAprobado().equals(nivelRequeridoPorEdad())) {
+	    resultado = true;
+	} else {
+	    throw new NivelInvalidoException("El alumno no tiene el nivel adecuado para inscribirse a este curso");
+	}
+	return resultado;
     }
 
 // NOTE no es Override porque sobrecarga el metodo

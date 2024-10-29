@@ -2,6 +2,18 @@ package ar.edu.unlam.pb2.educacion;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+
+import ar.edu.unlam.pb2.cursos.Jardin;
+import ar.edu.unlam.pb2.cursos.Primaria;
+import ar.edu.unlam.pb2.cursos.Secundaria;
+import ar.edu.unlam.pb2.enums.Competencias;
+import ar.edu.unlam.pb2.enums.Nivel;
+import ar.edu.unlam.pb2.excepciones.AlumnoInscriptoException;
+import ar.edu.unlam.pb2.excepciones.EdadNoPermitidaException;
+import ar.edu.unlam.pb2.excepciones.NivelInvalidoException;
+import ar.edu.unlam.pb2.personas.Alumno;
+import ar.edu.unlam.pb2.personas.Docente;
+
 import java.time.*;
 
 public class testsInstitucion {
@@ -52,21 +64,6 @@ public class testsInstitucion {
 	nuevo.marcarAsistencia(LocalDate.of(2024, 12, 9));
 
 	assertEquals(1, nuevo.contarAsistencias());
-    }
-
-    @Test // Alumno
-    public void queNoSePuedaMarcarAsistenciaDosVecesElMismoDia() { // Alumno
-	String nombre = "Quintero";
-	Integer dni = 12345678, edad = 3;
-	LocalDate diaDeClase = LocalDate.of(2024, 12, 9);
-	Nivel nivel = Nivel.ROJO;
-	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
-
-	nuevo.marcarAsistencia(diaDeClase);
-	nuevo.marcarAsistencia(LocalDate.of(2024, 12, 9));
-
-	assertEquals(1, nuevo.contarAsistencias());
-
     }
 
     @Test // Curso -> Jardin & Docente
@@ -154,7 +151,7 @@ public class testsInstitucion {
     }
 
     @Test // Curso -> Jardin & Alumno
-    public void queSePuedaCargarUnAlumnoEnUnaSalitaCeleste() { // Curso -> Jardin & Alumno
+    public void queNoSePuedaCargarDosVecesUnMismoAlumnoEnSalitaCeleste() { // Curso -> Jardin & Alumno
 	String nombre = "Quintero";
 	Integer dni = 12345678;
 	Integer edad = 5;
@@ -162,10 +159,22 @@ public class testsInstitucion {
 
 	Jardin curso = new Jardin(Nivel.CELESTE);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
+	Alumno nuevo2 = new Alumno(nombre, dni, edad, nivel);
 
-	curso.agregarAlumno(nuevo);
+	    try {
+		curso.inscribirAlumno(nuevo);
+		curso.inscribirAlumno(nuevo2);
+	    } catch (AlumnoInscriptoException e) {
+		e.getMessage();
+	    } catch (EdadNoPermitidaException e) {
+		e.getMessage();
+	    } catch (NivelInvalidoException e) {
+		e.getMessage();
+	    }
+
 
 	assertTrue(curso.getAlumnos().contains(nuevo));
+	assertEquals(1, curso.getAlumnos().size());
     }
 
     @Test // Curso -> Primaria & Alumno
@@ -178,8 +187,16 @@ public class testsInstitucion {
 	Primaria curso = new Primaria(Nivel.PRIMERO_P);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
-	curso.agregarAlumno(nuevo);
-
+	    try {
+		curso.inscribirAlumno(nuevo);
+	    } catch (AlumnoInscriptoException e) {
+		e.getMessage();
+	    } catch (EdadNoPermitidaException e) {
+		e.getMessage();
+	    } catch (NivelInvalidoException e) {
+		e.getMessage();
+	    }
+	    
 	assertFalse(curso.getAlumnos().contains(nuevo));
     }
 
@@ -192,8 +209,17 @@ public class testsInstitucion {
 
 	Alumno alumno = new Alumno(nombre, dni, edad, nivel);
 	Primaria curso = new Primaria(Nivel.TERCERO_P);
-	curso.agregarAlumno(alumno);
-
+	
+	try {
+	    curso.inscribirAlumno(alumno);
+	    } catch (AlumnoInscriptoException e) {
+		e.getMessage();
+	    } catch (EdadNoPermitidaException e) {
+		e.getMessage();
+	    } catch (NivelInvalidoException e) {
+		e.getMessage();
+	    }
+	
 	assertEquals(0, curso.getAlumnos().size());
     }
 
@@ -207,8 +233,17 @@ public class testsInstitucion {
 	Alumno alumno = new Alumno(nombre, dni, edad, nivel);
 	Alumno alumno2 = new Alumno(nombre2, 20181209, edad2, nivel);
 	Primaria curso = new Primaria(Nivel.TERCERO_P);
-	curso.agregarAlumno(alumno);
-	curso.agregarAlumno(alumno2);
+	
+	try {
+	    curso.inscribirAlumno(alumno);
+	    curso.inscribirAlumno(alumno2);
+	    } catch (AlumnoInscriptoException e) {
+		e.getMessage();
+	    } catch (EdadNoPermitidaException e) {
+		e.getMessage();
+	    } catch (NivelInvalidoException e) {
+		e.getMessage();
+	    }
 
 	assertEquals(1, curso.getAlumnos().size());
     }
@@ -223,7 +258,15 @@ public class testsInstitucion {
 	Primaria curso = new Primaria(Nivel.TERCERO_P);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
-	curso.agregarAlumno(nuevo);
+	try {
+	    curso.inscribirAlumno(nuevo);
+	    } catch (AlumnoInscriptoException e) {
+		e.getMessage();
+	    } catch (EdadNoPermitidaException e) {
+		e.getMessage();
+	    } catch (NivelInvalidoException e) {
+		e.getMessage();
+	    }
 
 	assertTrue(curso.getAlumnos().contains(nuevo));
     }
@@ -238,7 +281,15 @@ public class testsInstitucion {
 	Secundaria curso = new Secundaria(Nivel.CUARTO_S);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
-	curso.agregarAlumno(nuevo);
+	try {
+	    curso.inscribirAlumno(nuevo);
+	    } catch (AlumnoInscriptoException e) {
+		e.getMessage();
+	    } catch (EdadNoPermitidaException e) {
+		e.getMessage();
+	    } catch (NivelInvalidoException e) {
+		e.getMessage();
+	    }
 
 	assertTrue(curso.getAlumnos().contains(nuevo));
     }
@@ -253,7 +304,15 @@ public class testsInstitucion {
 	Secundaria curso = new Secundaria(Nivel.SEGUNDO_S);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
-	curso.agregarAlumno(nuevo);
+	try {
+	    curso.inscribirAlumno(nuevo);
+	    } catch (AlumnoInscriptoException e) {
+		e.getMessage();
+	    } catch (EdadNoPermitidaException e) {
+		e.getMessage();
+	    } catch (NivelInvalidoException e) {
+		e.getMessage();
+	    }
 
 	assertTrue(curso.getAlumnos().contains(nuevo));
     }
@@ -270,7 +329,17 @@ public class testsInstitucion {
 	Primaria curso = new Primaria(Nivel.PRIMERO_P);
 
 	Integer nota = 10;
-	curso.agregarAlumno(alumno);
+	
+	try {
+	    curso.inscribirAlumno(alumno);
+	    } catch (AlumnoInscriptoException e) {
+		e.getMessage();
+	    } catch (EdadNoPermitidaException e) {
+		e.getMessage();
+	    } catch (NivelInvalidoException e) {
+		e.getMessage();
+	    }
+	
 	curso.evaluarAlumno(alumno, docente, nota);
 
 	assertEquals(nota, alumno.getEvaluacion());
@@ -288,7 +357,16 @@ public class testsInstitucion {
 	Primaria curso = new Primaria(Nivel.PRIMERO_P);
 
 	Integer nota = 10;
-	curso.agregarAlumno(alumno);
+	try {
+	    curso.inscribirAlumno(alumno);
+	    } catch (AlumnoInscriptoException e) {
+		e.getMessage();
+	    } catch (EdadNoPermitidaException e) {
+		e.getMessage();
+	    } catch (NivelInvalidoException e) {
+		e.getMessage();
+	    }
+	
 	curso.evaluarAlumno(alumno, docente, nota);
 
 	assertNotEquals(nota, alumno.getEvaluacion());
@@ -306,7 +384,16 @@ public class testsInstitucion {
 	Jardin curso = new Jardin(Nivel.ROJO);
 
 	Integer nota = 10;
-	curso.agregarAlumno(alumno);
+	try {
+	    curso.inscribirAlumno(alumno);
+	    } catch (AlumnoInscriptoException e) {
+		e.getMessage();
+	    } catch (EdadNoPermitidaException e) {
+		e.getMessage();
+	    } catch (NivelInvalidoException e) {
+		e.getMessage();
+	    }
+	
 	curso.evaluarAlumno(alumno, docente, nota);
 
 	assertEquals((Integer) 1, alumno.getEvaluacion());

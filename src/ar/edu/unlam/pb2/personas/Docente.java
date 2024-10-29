@@ -1,8 +1,10 @@
-package ar.edu.unlam.pb2.educacion;
+package ar.edu.unlam.pb2.personas;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import ar.edu.unlam.pb2.enums.Competencias;
 
 public class Docente {
 

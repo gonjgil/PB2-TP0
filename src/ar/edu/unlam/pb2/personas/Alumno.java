@@ -1,7 +1,9 @@
-package ar.edu.unlam.pb2.educacion;
+package ar.edu.unlam.pb2.personas;
 
 import java.time.LocalDate;
 import java.util.Objects;
+
+import ar.edu.unlam.pb2.enums.Nivel;
 
 public class Alumno {
 
