@@ -7,7 +7,7 @@ import ar.edu.unlam.pb2.cursos.Jardin;
 import ar.edu.unlam.pb2.cursos.Primaria;
 import ar.edu.unlam.pb2.cursos.Secundaria;
 import ar.edu.unlam.pb2.enums.Competencias;
-import ar.edu.unlam.pb2.enums.Nivel;
+import ar.edu.unlam.pb2.enums.Niveles;
 import ar.edu.unlam.pb2.excepciones.AlumnoInscriptoException;
 import ar.edu.unlam.pb2.excepciones.EdadNoPermitidaException;
 import ar.edu.unlam.pb2.excepciones.NivelInvalidoException;
@@ -20,7 +20,7 @@ public class testsInstitucion {
 
     @Test // Curso
     public void queSePuedaCrearUnCursoDeSalitaRojaEnLaClasePadre() { // Curso
-	Nivel salon = Nivel.ROJO;
+	Niveles salon = Niveles.ROJO;
 
 	Jardin nuevoCurso = new Jardin(salon);
 
@@ -43,7 +43,7 @@ public class testsInstitucion {
     public void queQuinteroPuedaMarcarAsistenciaAUnaClase() { // Alumno
 	String nombre = "Quintero";
 	Integer dni = 12345678, edad = 3;
-	Nivel nivel = Nivel.ROJO;
+	Niveles nivel = Niveles.ROJO;
 	LocalDate diaDeClase = LocalDate.of(2018, 12, 9);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
@@ -57,7 +57,7 @@ public class testsInstitucion {
 	String nombre = "Quintero";
 	Integer dni = 12345678, edad = 3;
 	LocalDate diaDeClase = LocalDate.of(2024, 12, 9);
-	Nivel nivel = Nivel.ROJO;
+	Niveles nivel = Niveles.ROJO;
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
 	nuevo.marcarAsistencia(diaDeClase);
@@ -78,7 +78,7 @@ public class testsInstitucion {
 
 // PREGUNTAR ver como limitar los valores del constructor que puede tomar del enum cada clase !!!!
 
-	Jardin curso = new Jardin(Nivel.ROJO);
+	Jardin curso = new Jardin(Niveles.ROJO);
 	curso.agregarDocente(docente);
 	curso.agregarDocente(docente2);
 
@@ -91,7 +91,7 @@ public class testsInstitucion {
 	Integer dni = 20181209;
 	Competencias competencia = Competencias.PRIMERO;
 
-	Primaria curso = new Primaria(Nivel.PRIMERO_P);
+	Primaria curso = new Primaria(Niveles.PRIMERO_P);
 	Docente nuevo = new Docente(nombre, dni);
 	nuevo.agregarCompetencia(competencia);
 
@@ -106,7 +106,7 @@ public class testsInstitucion {
 	Integer dni = 20181209, dni2 = 11111111;
 	Competencias competencia = Competencias.TERCERO, competencia2 = Competencias.TERCERO;
 
-	Primaria curso = new Primaria(Nivel.TERCERO_P);
+	Primaria curso = new Primaria(Niveles.TERCERO_P);
 	Docente docente = new Docente(nombre, dni);
 	Docente docente2 = new Docente(nombre2, dni2);
 	docente.agregarCompetencia(competencia);
@@ -125,7 +125,7 @@ public class testsInstitucion {
 	Competencias materia = Competencias.MATERIA_3;
 	Competencias competencia = Competencias.MATERIA_3;
 
-	Secundaria curso = new Secundaria(Nivel.PRIMERO_S);
+	Secundaria curso = new Secundaria(Niveles.PRIMERO_S);
 	Docente nuevo = new Docente(nombre, dni);
 	nuevo.agregarCompetencia(competencia);
 
@@ -141,7 +141,7 @@ public class testsInstitucion {
 	Competencias competencia = Competencias.MATERIA_2;
 	Competencias materia = Competencias.MATERIA_1;
 
-	Secundaria curso = new Secundaria(Nivel.QUINTO_S);
+	Secundaria curso = new Secundaria(Niveles.QUINTO_S);
 	Docente docente = new Docente(nombre, dni);
 	docente.agregarCompetencia(competencia);
 
@@ -155,9 +155,9 @@ public class testsInstitucion {
 	String nombre = "Quintero";
 	Integer dni = 12345678;
 	Integer edad = 5;
-	Nivel nivel = Nivel.NINGUNO;
+	Niveles nivel = Niveles.NINGUNO;
 
-	Jardin curso = new Jardin(Nivel.CELESTE);
+	Jardin curso = new Jardin(Niveles.CELESTE);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 	Alumno nuevo2 = new Alumno(nombre, dni, edad, nivel);
 
@@ -182,9 +182,9 @@ public class testsInstitucion {
 	String nombre = "Quintero";
 	Integer dni = 12345678;
 	Integer edad = 5;
-	Nivel nivel = Nivel.NINGUNO;
+	Niveles nivel = Niveles.NINGUNO;
 
-	Primaria curso = new Primaria(Nivel.PRIMERO_P);
+	Primaria curso = new Primaria(Niveles.PRIMERO_P);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
 	    try {
@@ -205,10 +205,10 @@ public class testsInstitucion {
 	String nombre = "Martinez";
 	Integer dni = 20181209;
 	Integer edad = 8;
-	Nivel nivel = Nivel.PRIMERO_P;
+	Niveles nivel = Niveles.PRIMERO_P;
 
 	Alumno alumno = new Alumno(nombre, dni, edad, nivel);
-	Primaria curso = new Primaria(Nivel.TERCERO_P);
+	Primaria curso = new Primaria(Niveles.TERCERO_P);
 	
 	try {
 	    curso.inscribirAlumno(alumno);
@@ -228,11 +228,11 @@ public class testsInstitucion {
 	String nombre = "Martinez", nombre2 = "Juanfer";
 	Integer dni = 20181209;
 	Integer edad = 8, edad2 = 9;
-	Nivel nivel = Nivel.SEGUNDO_P;
+	Niveles nivel = Niveles.SEGUNDO_P;
 
 	Alumno alumno = new Alumno(nombre, dni, edad, nivel);
 	Alumno alumno2 = new Alumno(nombre2, 20181209, edad2, nivel);
-	Primaria curso = new Primaria(Nivel.TERCERO_P);
+	Primaria curso = new Primaria(Niveles.TERCERO_P);
 	
 	try {
 	    curso.inscribirAlumno(alumno);
@@ -253,9 +253,9 @@ public class testsInstitucion {
 	String nombre = "Quintero";
 	Integer dni = 12345678;
 	Integer edad = 8;
-	Nivel nivel = Nivel.SEGUNDO_P;
+	Niveles nivel = Niveles.SEGUNDO_P;
 
-	Primaria curso = new Primaria(Nivel.TERCERO_P);
+	Primaria curso = new Primaria(Niveles.TERCERO_P);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
 	try {
@@ -268,7 +268,7 @@ public class testsInstitucion {
 		e.getMessage();
 	    }
 
-	assertTrue(curso.getAlumnos().contains(nuevo));
+		assertTrue(curso.getAlumnos().contains(nuevo));
     }
 
     @Test // Curso -> Secundaria & Alumno
@@ -276,9 +276,9 @@ public class testsInstitucion {
 	String nombre = "Quintero";
 	Integer dni = 12345678;
 	Integer edad = 15;
-	Nivel nivel = Nivel.TERCERO_S;
+	Niveles nivel = Niveles.TERCERO_S;
 
-	Secundaria curso = new Secundaria(Nivel.CUARTO_S);
+	Secundaria curso = new Secundaria(Niveles.CUARTO_S);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
 	try {
@@ -299,9 +299,9 @@ public class testsInstitucion {
 	String nombre = "Quintero";
 	Integer dni = 12345678;
 	Integer edad = 15;
-	Nivel nivel = Nivel.PRIMERO_S;
+	Niveles nivel = Niveles.PRIMERO_S;
 
-	Secundaria curso = new Secundaria(Nivel.SEGUNDO_S);
+	Secundaria curso = new Secundaria(Niveles.SEGUNDO_S);
 	Alumno nuevo = new Alumno(nombre, dni, edad, nivel);
 
 	try {
@@ -322,11 +322,11 @@ public class testsInstitucion {
 	String nombre = "Quintero";
 	Integer dni = 9122018;
 	Integer edad = 6;
-	Nivel nivel = Nivel.NINGUNO;
+	Niveles nivel = Niveles.NINGUNO;
 	Alumno alumno = new Alumno(nombre, dni, edad, nivel);
 	Docente docente = new Docente("Gallardo", 9122018);
 	docente.agregarCompetencia(Competencias.PRIMERO);
-	Primaria curso = new Primaria(Nivel.PRIMERO_P);
+	Primaria curso = new Primaria(Niveles.PRIMERO_P);
 
 	Integer nota = 10;
 	
@@ -350,11 +350,11 @@ public class testsInstitucion {
 	String nombre = "Quintero";
 	Integer dni = 9122018;
 	Integer edad = 6;
-	Nivel nivel = Nivel.NINGUNO;
+	Niveles nivel = Niveles.NINGUNO;
 	Alumno alumno = new Alumno(nombre, dni, edad, nivel);
 	Docente docente = new Docente("Gallardo", 9122018);
 	docente.agregarCompetencia(Competencias.MATERIA_3);
-	Primaria curso = new Primaria(Nivel.PRIMERO_P);
+	Primaria curso = new Primaria(Niveles.PRIMERO_P);
 
 	Integer nota = 10;
 	try {
@@ -377,11 +377,11 @@ public class testsInstitucion {
 	String nombre = "Quintero";
 	Integer dni = 9122018;
 	Integer edad = 5;
-	Nivel nivel = Nivel.ROJO;
+	Niveles nivel = Niveles.ROJO;
 	Alumno alumno = new Alumno(nombre, dni, edad, nivel);
 	Docente docente = new Docente("Gallardo", 9122018);
 	docente.agregarCompetencia(Competencias.MAESTRX_JARDINERX);
-	Jardin curso = new Jardin(Nivel.ROJO);
+	Jardin curso = new Jardin(Niveles.ROJO);
 
 	Integer nota = 10;
 	try {

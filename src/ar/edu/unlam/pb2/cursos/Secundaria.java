@@ -1,7 +1,7 @@
 package ar.edu.unlam.pb2.cursos;
 
 import ar.edu.unlam.pb2.enums.Competencias;
-import ar.edu.unlam.pb2.enums.Nivel;
+import ar.edu.unlam.pb2.enums.Niveles;
 import ar.edu.unlam.pb2.excepciones.EdadNoPermitidaException;
 import ar.edu.unlam.pb2.excepciones.NivelInvalidoException;
 import ar.edu.unlam.pb2.personas.Alumno;
@@ -12,7 +12,7 @@ public class Secundaria extends Curso {
     private static final Competencias[] MATERIAS = { Competencias.MATERIA_1, Competencias.MATERIA_2, Competencias.MATERIA_3, Competencias.MATERIA_4,
 	    Competencias.MATERIA_5, Competencias.MATERIA_6, Competencias.MATERIA_7 };
 
-    public Secundaria(Nivel salon) {
+    public Secundaria(Niveles salon) {
 	super(salon);
     }
 
