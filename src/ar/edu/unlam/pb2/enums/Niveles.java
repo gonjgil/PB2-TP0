@@ -1,8 +1,5 @@
 package ar.edu.unlam.pb2.enums;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public enum Niveles {
 
 	NINGUNO(1), CELESTE(2), VERDE(3), AZUL(4), ROJO(5), PRIMERO_P(6), SEGUNDO_P(7), TERCERO_P(8), CUARTO_P(9),
@@ -10,7 +7,7 @@ public enum Niveles {
 
 	private final Integer edad;
 
-	private Niveles(Integer edad) {
+	Niveles(Integer edad) {
 		this.edad = edad;
 	}
 

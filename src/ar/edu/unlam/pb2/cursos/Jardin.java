@@ -1,7 +1,12 @@
 package ar.edu.unlam.pb2.cursos;
 
+import java.util.Set;
+
+import ar.edu.unlam.pb2.enums.Competencias;
 import ar.edu.unlam.pb2.enums.Niveles;
 import ar.edu.unlam.pb2.excepciones.EdadNoPermitidaException;
+import ar.edu.unlam.pb2.excepciones.NivelNoPermitidoException;
+import ar.edu.unlam.pb2.excepciones.NoEvaluableException;
 import ar.edu.unlam.pb2.personas.Alumno;
 import ar.edu.unlam.pb2.personas.Docente;
 
@@ -9,12 +14,13 @@ public class Jardin extends Curso {
 
 	public Jardin(Niveles salon) {
 		super(salon);
-		this.DOCENTES_MAX = 2;
+		DOCENTES_MAX = 2;
+		COMPETENCIAS_REQUERIDAS = Set.of(Competencias.MAESTRX_JARDINERX);
 	}
 
 	@Override
 	public Boolean validarEdad(Alumno alumno) throws EdadNoPermitidaException {
-		Boolean resultado = false;
+		boolean resultado = false;
 		if (alumno.getEdad() >= 2 && alumno.getEdad() <= 5) {
 			resultado = true;
 		} else {
@@ -28,9 +34,9 @@ public class Jardin extends Curso {
 		return true;
 	}
 
-// PREGUNTAR ver si esta es la forma adecuada para evitar que un alumno de jardin sea evaluado (un metodo void en la clase heredada)
 	@Override
-	public void evaluarAlumno(Alumno alumno, Docente docente, Integer nota) {
+	public void evaluarAlumno(Alumno alumno, Docente docente, Integer nota) throws NoEvaluableException {
+	    throw new NoEvaluableException("Los Alumnos de Jardin no son evaluables");
 	}
 
 }

@@ -8,20 +8,20 @@ import ar.edu.unlam.pb2.enums.Competencias;
 
 public class Docente {
 
-    private String nombre;
     private Integer dni;
+    private String nombre;
     private List<Competencias> competencias;
 
     public Docente(String nombre, Integer dni) {
-	this.nombre = nombre;
 	this.dni = dni;
-	this.competencias = new ArrayList<Competencias>();
+	this.nombre = nombre;
+	this.competencias = new ArrayList<>();
     }
 
     public void agregarCompetencia(Competencias competencia) {
 	if(!competencias.contains(competencia)) {
 	competencias.add(competencia);
-	}	
+	}
     }
 
     public String getNombre() {
@@ -43,12 +43,12 @@ public class Docente {
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
+	if (this == obj) {
 	    return true;
-	if (obj == null)
+	}
+	if ((obj == null) || (getClass() != obj.getClass())) {
 	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
+	}
 	Docente other = (Docente) obj;
 	return Objects.equals(dni, other.dni);
     }

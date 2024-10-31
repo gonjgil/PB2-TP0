@@ -1,11 +1,14 @@
 package ar.edu.unlam.pb2.personas;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 import ar.edu.unlam.pb2.enums.Niveles;
 
-public class Alumno {
+public class Alumno implements Comparable {
 
 	private String nombre;
 	private Integer dni;
@@ -25,8 +28,8 @@ public class Alumno {
 	}
 
 	public void marcarAsistencia(LocalDate fecha) {
-		for (int i = 0; i < asistencias.length; i++) {
-			if (asistencias[i] != null && asistencias[i].equals(fecha)) {
+		for (LocalDate element : asistencias) {
+			if (element != null && element.equals(fecha)) {
 				return;
 			}
 		}
@@ -39,7 +42,7 @@ public class Alumno {
 	}
 
 	public Boolean asistio(LocalDate fecha) {
-		Boolean asistio = false;
+		boolean asistio = false;
 		for (LocalDate fechas : asistencias) {
 			if (fecha == fechas) {
 				asistio = true;
@@ -83,6 +86,7 @@ public class Alumno {
 		return evaluacion;
 	}
 
+	// para que me permita no duplicar objetos (HashSet y HashMap)
 	@Override
 	public int hashCode() {
 		return Objects.hash(dni);
@@ -90,18 +94,24 @@ public class Alumno {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) {
+		    return true;
+		}
+		if ((obj == null) || (getClass() != obj.getClass())) {
+		    return false;
+		}
 		Alumno other = (Alumno) obj;
 		return Objects.equals(dni, other.dni);
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Alumno: " + nombre + ", DNI " + dni + ", " + edad + " años";
+	}
+
+	// para que me permita ordenar (TreeSet y TreeMap)
+	@Override
+	public int compareTo(Object object) {
+	    return this.dni.compareTo(((Alumno)object).getDni());
 	}
 }
