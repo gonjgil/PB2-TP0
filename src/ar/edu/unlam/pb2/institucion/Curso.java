@@ -1,14 +1,14 @@
-package ar.edu.unlam.pb2.cursos;
+package ar.edu.unlam.pb2.institucion;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
 import ar.edu.unlam.pb2.enums.Competencias;
 import ar.edu.unlam.pb2.enums.Niveles;
 import ar.edu.unlam.pb2.excepciones.AlumnoInscriptoException;
+import ar.edu.unlam.pb2.excepciones.CantidadMaximaDocentesException;
+import ar.edu.unlam.pb2.excepciones.DocenteExistenteException;
 import ar.edu.unlam.pb2.excepciones.EdadNoPermitidaException;
 import ar.edu.unlam.pb2.excepciones.NivelInvalidoException;
 import ar.edu.unlam.pb2.excepciones.NivelNoPermitidoException;
@@ -24,7 +24,6 @@ public abstract class Curso implements Validaciones {
     protected Set<Docente> docentes;
     protected Set<Alumno> alumnos;
     protected static Set<Competencias> COMPETENCIAS_REQUERIDAS;
-    protected static Set<Niveles> NIVELES_PERMITIDOS;
     protected static Integer DOCENTES_MAX;
 
     public Curso(Niveles salon) {
@@ -34,23 +33,29 @@ public abstract class Curso implements Validaciones {
 	this.COMPETENCIAS_REQUERIDAS = new TreeSet<Competencias>();
     }
 
-    public void agregarDocente(Docente docente) {
-	if (!docentes.contains(docente)) {
-	    if (this.docentes.size() != DOCENTES_MAX && docente.getCompetencias().contains(competenciaRequerida())) {
-		docentes.add(docente);
-	    }
+    public Boolean agregarDocente(Docente docente) throws CantidadMaximaDocentesException, NivelNoPermitidoException, DocenteExistenteException {
+	if (docentes.contains(docente)) {
+	    throw new DocenteExistenteException(docente.getNombre() + " ya esta asignado a ese curso");
 	}
+	if (this.docentes.size() == DOCENTES_MAX) {
+	    throw new CantidadMaximaDocentesException("Los cargos docentes ya estan cubiertos");
+	}
+	if (!docente.getCompetencias().contains(competenciaRequerida())) {
+	    throw new NivelNoPermitidoException(docente.getNombre() + " no esta calificado para ese curso");
+	}
+	docentes.add(docente);
+	return true;
     }
 
     public void inscribirAlumno(Alumno alumno) throws AlumnoInscriptoException, EdadNoPermitidaException, NivelInvalidoException {
 	if (alumnos.contains(alumno)) {
-	    throw new AlumnoInscriptoException("El alumno ya esta inscripto");
+	    throw new AlumnoInscriptoException(alumno.getNombre() + " ya esta inscripto en este curso");
 	} else if (validarEdad(alumno) && validarNivel(alumno)) {
 	    alumnos.add(alumno);
 	}
     }
 
-    // NOTE rehacer
+    // NOTE rehacer mediante TDD
     public void evaluarAlumno(Alumno alumno, Docente docente, Integer nota) throws NoEvaluableException {
 	if (nota >= 1 && nota <= 10 && docente.getCompetencias().contains(competenciaRequerida())) {
 	    alumno.setEvaluacion(nota);

@@ -1,4 +1,4 @@
-package ar.edu.unlam.pb2.cursos;
+package ar.edu.unlam.pb2.institucion;
 
 import java.util.Set;
 
@@ -23,7 +23,7 @@ public class Primaria extends Curso {
 	if (alumno.getEdad() == this.edadRequerida() || alumno.getEdad() == this.edadRequerida() + 1) {
 	    resultado = true;
 	} else {
-	    throw new EdadNoPermitidaException("No tiene la edad adecuada para inscribirse en Secundaria");
+	    throw new EdadNoPermitidaException(alumno.getNombre() + " no tiene la edad adecuada para inscribirse en Secundaria");
 	}
 	return resultado;
     }
@@ -34,7 +34,7 @@ public class Primaria extends Curso {
 	if (alumno.getNivelAprobado().equals(nivelRequeridoPorEdad()) || (this.salon == Niveles.PRIMERO_P && estaEscolarizado(alumno))) {
 	    resultado = true;
 	} else {
-	    throw new NivelInvalidoException("El alumno no tiene el nivel adecuado para inscribirse a este salon");
+	    throw new NivelInvalidoException(alumno.getNombre() + " no tiene el nivel adecuado para inscribirse a este salon");
 	}
 	return resultado;
     }

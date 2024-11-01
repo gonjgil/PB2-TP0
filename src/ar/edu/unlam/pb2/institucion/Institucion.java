@@ -1,4 +1,4 @@
-package ar.edu.unlam.pb2.cursos;
+package ar.edu.unlam.pb2.institucion;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +29,8 @@ public class Institucion {
 	}
 	return instancia;
     }
+    
+    
 
     public Boolean agregarCurso(Curso curso) throws NivelNoPermitidoException {
 	Boolean resultado = false;
@@ -42,7 +44,7 @@ public class Institucion {
 	    salones.add((Secundaria) curso);
 	    resultado = true;
 	} else
-	    throw new NivelNoPermitidoException("El nivel no corresponde a Jardin");
+	    throw new NivelNoPermitidoException("El nivel no corresponde");
 	return resultado;
     }
 

@@ -1,4 +1,4 @@
-package ar.edu.unlam.pb2.cursos;
+package ar.edu.unlam.pb2.institucion;
 
 import java.util.Set;
 
@@ -24,7 +24,7 @@ public class Jardin extends Curso {
 		if (alumno.getEdad() >= 2 && alumno.getEdad() <= 5) {
 			resultado = true;
 		} else {
-			throw new EdadNoPermitidaException("No tiene la edad adecuada para inscribirse en esta salita");
+			throw new EdadNoPermitidaException(alumno.getNombre() + " no tiene la edad adecuada para inscribirse en esta salita");
 		}
 		return resultado;
 	}
@@ -36,7 +36,7 @@ public class Jardin extends Curso {
 
 	@Override
 	public void evaluarAlumno(Alumno alumno, Docente docente, Integer nota) throws NoEvaluableException {
-	    throw new NoEvaluableException("Los Alumnos de Jardin no son evaluables");
+	    throw new NoEvaluableException("El alumnado de Jardin no es evaluable");
 	}
 
 }
