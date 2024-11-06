@@ -8,7 +8,7 @@ import java.util.TreeSet;
 
 import ar.edu.unlam.pb2.enums.Niveles;
 
-public class Alumno implements Comparable {
+public class Alumno implements Comparable<Alumno> {
 
 	private String nombre;
 	private Integer dni;
@@ -77,7 +77,7 @@ public class Alumno implements Comparable {
 	public Niveles getNivelAprobado() {
 		return nivelAprobado;
 	}
-
+	
 	public void setEvaluacion(Integer nota) {
 		this.evaluacion = nota;
 	}
@@ -86,7 +86,6 @@ public class Alumno implements Comparable {
 		return evaluacion;
 	}
 
-	// para que me permita no duplicar objetos (HashSet y HashMap)
 	@Override
 	public int hashCode() {
 		return Objects.hash(dni);
@@ -105,13 +104,7 @@ public class Alumno implements Comparable {
 	}
 	
 	@Override
-	public String toString() {
-		return "Alumno: " + nombre + ", DNI " + dni + ", " + edad + " años";
-	}
-
-	// para que me permita ordenar (TreeSet y TreeMap)
-	@Override
-	public int compareTo(Object object) {
-	    return this.dni.compareTo(((Alumno)object).getDni());
+	public int compareTo(Alumno alumno) {
+	    return this.dni.compareTo(alumno.getDni());
 	}
 }

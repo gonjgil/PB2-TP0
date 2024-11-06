@@ -11,6 +11,7 @@ import org.junit.Test;
 import ar.edu.unlam.pb2.enums.Competencias;
 import ar.edu.unlam.pb2.enums.Niveles;
 import ar.edu.unlam.pb2.excepciones.AlumnoInscriptoException;
+import ar.edu.unlam.pb2.excepciones.AlumnoNoEncontradoException;
 import ar.edu.unlam.pb2.excepciones.CantidadMaximaDocentesException;
 import ar.edu.unlam.pb2.excepciones.DocenteExistenteException;
 import ar.edu.unlam.pb2.excepciones.EdadNoPermitidaException;
@@ -83,24 +84,24 @@ public class testsInstitucion {
 
 	assertNotNull(jardin);
     }
-    
+
     @Test // Institucion -> Curso:Jardin
     public void queSePuedaAgregarUnCursoDeSalitaRojaALaInstitucion() throws NivelNoPermitidoException {
 	Jardin jardin = new Jardin(nivelRojo);
-	
+
 	escuela.agregarCurso(jardin);
-	
+
 	assertEquals(1, escuela.getSalones().size());
     }
-    
+
     @Test // Institucion -> Curso
     (expected = NivelNoPermitidoException.class)
     public void queNoSePuedaAgregarAUnaInstitucionUnCursoDeJardinDeUnNivelQueNoCorresponde() throws NivelNoPermitidoException {
 	Jardin jardin = new Jardin(nivel2P);
-	
-	 escuela.agregarCurso(jardin);
+
+	escuela.agregarCurso(jardin);
     }
-    
+
     @Test // Docente
     public void queSePuedaAgregarUnaCompetenciaAUnDocente() {
 	Competencias competencia = Competencias.MATERIA_2;
@@ -113,12 +114,13 @@ public class testsInstitucion {
 
     @Test // Curso:Jardin & Docente
     (expected = CantidadMaximaDocentesException.class)
-    public void queNoSePuedaAgregarMasDeDosDocentesAUnJardin() throws CantidadMaximaDocentesException, NivelNoPermitidoException, DocenteExistenteException {
+    public void queNoSePuedaAgregarMasDeDosDocentesAUnJardin()
+	    throws CantidadMaximaDocentesException, NivelNoPermitidoException, DocenteExistenteException {
 	Jardin jardin = new Jardin(nivelRojo);
 	Docente docente1 = new Docente(nombreDocente1, dniD1);
 	Docente docente2 = new Docente(nombreDocente2, dniD2);
 	Docente docente3 = new Docente(nombreDocente3, dniD3);
-	
+
 	docente1.agregarCompetencia(jardinerx);
 	jardin.agregarDocente(docente1);
 	docente2.agregarCompetencia(jardinerx);
@@ -129,7 +131,8 @@ public class testsInstitucion {
 
     @Test // Curso -> Primaria & Docente
     (expected = CantidadMaximaDocentesException.class)
-    public void queNoSePuedaAgregarMasDeUnDocenteAUnCursoDePrimaria() throws NivelNoPermitidoException, CantidadMaximaDocentesException, DocenteExistenteException {
+    public void queNoSePuedaAgregarMasDeUnDocenteAUnCursoDePrimaria()
+	    throws NivelNoPermitidoException, CantidadMaximaDocentesException, DocenteExistenteException {
 	Primaria curso = new Primaria(nivel3P);
 	Docente docente = new Docente(nombreDocente1, dniD1);
 	Docente docente2 = new Docente(nombreDocente2, dniD2);
@@ -138,32 +141,30 @@ public class testsInstitucion {
 
 	curso.agregarDocente(docente);
 	curso.agregarDocente(docente2);
-
-	assertEquals(1, curso.getDocentes().size());
     }
 
-    @Test
-    (expected = NivelNoPermitidoException.class)
-    public void queNoSePuedaAgregarUnDocenteAUnCursoDePrimariaParaElCualNoEstaCalificado() throws NivelNoPermitidoException, CantidadMaximaDocentesException, DocenteExistenteException {
+    @Test(expected = NivelNoPermitidoException.class)
+    public void queNoSePuedaAgregarUnDocenteAUnCursoDePrimariaParaElCualNoEstaCalificado()
+	    throws NivelNoPermitidoException, CantidadMaximaDocentesException, DocenteExistenteException {
 	Primaria primaria = new Primaria(nivel3P);
 	Docente docente = new Docente(nombreDocente1, dniD1);
 	docente.agregarCompetencia(jardinerx);
 	docente.agregarCompetencia(materia1);
-	
+
 	primaria.agregarDocente(docente);
     }
-    
-    /*
+
     @Test // Curso -> Primaria & Alumno
-    public void queSePuedaCargarUnAlumnoConSegundoGradoDePrimariaAprobadoEnTercerGradoDePrimaria() throws NivelNoPermitidoException, AlumnoInscriptoException, EdadNoPermitidaException, NivelInvalidoException {
+    public void queSePuedaCargarUnAlumnoConSegundoGradoDePrimariaAprobadoEnTercerGradoDePrimaria()
+	    throws NivelNoPermitidoException, AlumnoInscriptoException, EdadNoPermitidaException, NivelInvalidoException {
 	Primaria curso = new Primaria(nivel3P);
 	Alumno alumno = new Alumno(nombreAlumno1, dniA1, edad8, nivel2P);
 
 	curso.inscribirAlumno(alumno);
-	
+
 	assertTrue(curso.getAlumnos().contains(alumno));
     }
-    
+
     @Test // Alumno
     public void queQuinteroPuedaMarcarAsistenciaUnDiaDeClases() {
 	Alumno alumno = new Alumno(nombreAlumno1, dniA1, edad3, nivelRojo);
@@ -172,7 +173,7 @@ public class testsInstitucion {
 
 	assertTrue(alumno.asistio(fecha1));
     }
-    
+
     @Test // Alumno
     public void queQuinteroNoPuedaMarcarAsistenciaDosVecesEnUnMismoDia() { // Alumno
 	Alumno alumno = new Alumno(nombreAlumno1, dniA1, edad3, nivelRojo);
@@ -183,8 +184,9 @@ public class testsInstitucion {
 	assertEquals(1, alumno.contarAsistencias());
     }
 
-    @Test // Curso -> Jardin & Docente
-    public void queNoSePuedaAgregarAUnDocenteConElMismoDniDosVecesAlMismoCursoDeUnJardin() throws NivelNoPermitidoException, CantidadMaximaDocentesException { // Curso -> Jardin & Docente
+    @Test(expected = DocenteExistenteException.class) // Curso -> Jardin & Docente
+    public void queNoSePuedaAgregarAUnDocenteConElMismoDniDosVecesAlMismoCursoDeUnJardin()
+	    throws NivelNoPermitidoException, CantidadMaximaDocentesException, DocenteExistenteException { // Curso -> Jardin & Docente
 	Docente docente1 = new Docente(nombreDocente1, dniD1);
 	docente1.agregarCompetencia(jardinerx);
 	Docente docente2 = new Docente(nombreDocente2, dniD1);
@@ -193,19 +195,18 @@ public class testsInstitucion {
 	Jardin curso = new Jardin(nivelRojo);
 	curso.agregarDocente(docente1);
 	curso.agregarDocente(docente2);
-
-	assertEquals(1, curso.getDocentes().size());
     }
 
     @Test // Curso -> Primaria & Docente
-    public void queSePuedaAgregarUnDocenteAPrimeroDePrimaria() throws NivelNoPermitidoException, CantidadMaximaDocentesException { // Curso -> Primaria & Docente
+    public void queSePuedaAgregarUnDocenteAPrimeroDePrimaria()
+	    throws NivelNoPermitidoException, CantidadMaximaDocentesException, DocenteExistenteException { // Curso -> Primaria & Docente
 	Primaria curso = new Primaria(nivel1P);
-	Docente alumno = new Docente(nombreDocente1, dniD1);
-	alumno.agregarCompetencia(primero);
+	Docente docente1 = new Docente(nombreDocente1, dniD1);
+	docente1.agregarCompetencia(primero);
 
-	curso.agregarDocente(alumno);
+	curso.agregarDocente(docente1);
 
-	assertTrue(curso.getDocentes().contains(alumno));
+	assertTrue(curso.getDocentes().contains(docente1));
     }
 
     @Test // Curso -> Secundaria & Docente
@@ -325,8 +326,29 @@ public class testsInstitucion {
 
 	curso.inscribirAlumno(alumno);
 	curso.evaluarAlumno(alumno, docente, nota);
+    }
 
-	assertEquals((Integer) 1, alumno.getEvaluacion());
+    @Test // Institucion -> Curso -> Alumno
+    public void queSePuedaEncontrarUnAlumnoEnCualquierCursoDeUnaInstitucion() throws AlumnoInscriptoException, EdadNoPermitidaException,
+	    NivelInvalidoException, NivelNoPermitidoException, AlumnoNoEncontradoException {
+	Alumno alumno1 = new Alumno(nombreAlumno3, dniA3, edad5, nivelRojo);
+	Jardin curso = new Jardin(nivelRojo);
+
+	curso.inscribirAlumno(alumno1);
+	escuela.agregarCurso(curso);
+
+	assertEquals(alumno1, escuela.buscarAlumno(dniA3));
+    }
+
+    @Test(expected = AlumnoNoEncontradoException.class) // Institucion -> Curso -> Alumno
+    public void queAlBuscarUnAlumnoQueNoExisteEnUnaInstitucionDevuelvaUnaExcepcionDeAlumnoNoEncontrado() throws AlumnoInscriptoException,
+	    EdadNoPermitidaException, NivelInvalidoException, NivelNoPermitidoException, AlumnoNoEncontradoException {
+	Alumno alumno1 = new Alumno(nombreAlumno3, dniA3, edad5, nivelRojo);
+	Jardin curso = new Jardin(nivelRojo);
+
+	curso.inscribirAlumno(alumno1);
+	escuela.agregarCurso(curso);
+	escuela.buscarAlumno(dniA2);
     }
 
     @Test // Curso -> Alumno
@@ -401,7 +423,6 @@ public class testsInstitucion {
 	    }
 	    posicion++;
 	}
-
     }
-*/
+
 }

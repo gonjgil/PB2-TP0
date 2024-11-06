@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import ar.edu.unlam.pb2.enums.Competencias;
 import ar.edu.unlam.pb2.enums.Niveles;
 import ar.edu.unlam.pb2.excepciones.AlumnoInscriptoException;
+import ar.edu.unlam.pb2.excepciones.AlumnoNoEncontradoException;
 import ar.edu.unlam.pb2.excepciones.CantidadMaximaDocentesException;
 import ar.edu.unlam.pb2.excepciones.DocenteExistenteException;
 import ar.edu.unlam.pb2.excepciones.EdadNoPermitidaException;
@@ -122,18 +123,17 @@ public abstract class Curso implements Validaciones {
     public Set<Alumno> getAlumnos() {
 	return alumnos;
     }
-
-    // alumnos ordenados por nombre
+    
     public Set<Alumno> getAlumnosOrdenadosPorDni() {
 	Set<Alumno> alumnosOrdenados = new TreeSet<Alumno>();
 	alumnosOrdenados.addAll(alumnos);
 	return alumnosOrdenados;
     }
 
-    // alumnos ordenados por dni
     public Set<Alumno> getAlumnosOrdenadosPorNombre() {
 	Set<Alumno> alumnosOrdenados = new TreeSet<Alumno>(new OrdenDeAlumnosPorNombre());
 	alumnosOrdenados.addAll(alumnos);
 	return alumnosOrdenados;
     }
+    
 }
